@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% block content %}
+<!DOCTYPE html>
+<html>
+<body>
+
+<h2>Upload PDF</h2>
+
+<form id="upload-form">
+    {% csrf_token %}
+  <input type="file" id="pdf-upload" name="pdf-upload" accept="application/pdf">
+  <input type="submit">
+</form>
+
+<script >
+    document.getElementById('upload-form').addEventListener('submit', function(event) {
+  event.preventDefault();
+
+  var fileInput = document.getElementById('pdf-upload');
+  var file = fileInput.files[0];
+  var formData = new FormData();
+
+  formData.append('pdf-upload', file);
+
+  var csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+  fetch('', {
+    method: 'POST',
+    headers: {
+      'X-CSRFToken': csrftoken
+    },
+    body: formData
+  })
+  .then(response => {
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    return response.json();
+  })
+  .then(data => {
+    console.log(data);
+    window.location.href = 'chat';  // Redirect here after successful upload
+  })
+  .catch(error => console.error(error));
+});
+</script>
+
+</body>
+</html>
+{% endblock %}
