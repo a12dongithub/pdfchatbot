@@ -40,5 +40,7 @@ Frontend Improvements :
   Cannot chat while waiting for response
   PDF Showing while chatting
 
+Algorithmic Improvements :
+  Send as much pdf information as model can handle.
 
   
